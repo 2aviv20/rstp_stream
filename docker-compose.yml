@@ -1,0 +1,32 @@
+# docker-compose config
+# docker-compose up
+
+version: "3"
+services:
+  nodeServer:
+    image: "node:12.14.1-stretch-slim"
+    container_name: nodeserverContainer
+    # build:
+    #   context: ./
+    volumes:
+      - ./:/source/nodeServer
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongoDb
+  mongoDb:
+    image: "mongo:4.2.3-bionic"
+    container_name: mongoDbContainer
+    restart: always
+    ports:
+      - 27017:27017
+    # volumes: 
+    #   - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:root
+    #   - ./mongo-volume:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+      # MONGO_INITDB_DATABASE: mainDb
+
+
+  

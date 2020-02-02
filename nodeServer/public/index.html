@@ -1,0 +1,26 @@
+<!-- http://localhost:3888/?rstpUrl=rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa -->
+
+
+<!doctype html>
+<html>
+
+<head>
+    <title>onload test</title>
+    <script>
+        function load() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var rstpUrl = url.searchParams.get("rstpUrl");
+            console.log(rstpUrl);
+            var iframe = document.createElement('iframe');
+            iframe.src = `https://demo.flashphoner.com:8888/embed_player?urlServer=wss://demo.flashphoner.com:8443&streamName=${rstpUrl}&mediaProviders=WebRTC,Flash,MSE,WSPlayer`;
+            document.body.appendChild(iframe);
+        }
+        window.onload = load;
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
