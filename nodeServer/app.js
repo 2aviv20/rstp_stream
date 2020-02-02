@@ -1,9 +1,15 @@
-//https://medium.com/swlh/jwt-authentication-authorization-in-nodejs-express-mongodb-rest-apis-2019-ad14ec818122
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
-const userRouter = require('./routers/user')
+//env
+require('dotenv').config();
+//routes
+const userRouter = require('./routes/User.routes');
+const rstpRouter = require('./routes/RstpUrls.route');
+//db connection
+require('./db/db');
 
-const app = express()
+const app = express();
 const port = 3888;
 
 app.use(function (req, res, next) {
@@ -11,10 +17,16 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use(express.json())
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+//static folder
 app.use(express.static('public'))
 
-app.use(userRouter)
+//routes
+app.use(userRouter);
+app.use(rstpRouter);
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/public/index.html')))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
