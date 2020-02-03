@@ -5,9 +5,11 @@ import '../../css/form.css'
 import './home.css'
 import { Container, Row, Col } from 'react-bootstrap';
 import Rstp from '../../services/rstp.service'
+
 class HomeComp extends React.Component {
     constructor(props) {
         super(props);
+        this.rstp = new Rstp();
         this.state = {
             url: {
                 value: '',
@@ -15,12 +17,14 @@ class HomeComp extends React.Component {
                 used: false
             },
         };
-        this.rstp = new Rstp();
     }
 
+    componentDidMount() {
+        console.log(this.props);
+    }
     handleUrlChange = (event) => {
         const regex = /(rtsp):\/\/(?:([^\s@\/]+?)[@])?([^\s\/:]+)(?:[:]([0-9]+))?(?:(\/[^\s?#]+)([?][^\s#]+)?)?([#]\S*)?/g
-        const _valid = (event.target.value.match(regex))?true:false;
+        const _valid = (event.target.value.match(regex)) ? true : false;
         this.setState({
             url: {
                 value: event.target.value,
@@ -32,7 +36,8 @@ class HomeComp extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        if(this.state.url.valid){
+        this.props.history.push("/login");
+        if (this.state.url.valid) {
             // const res = await this.rstp.addNewUrl(this.state.url);
             // console.log(res);
         }
@@ -40,12 +45,12 @@ class HomeComp extends React.Component {
 
     render() {
         let urlVlidationMsg = "";
-        if(!this.state.url.valid && this.state.url.used){
+        if (!this.state.url.valid && this.state.url.used) {
             urlVlidationMsg = <div className="errorMessage">Error url is not valid</div>;
-        }else{
+        } else {
             urlVlidationMsg = <div className="errorMessage"></div>;
         }
-    
+
         return (
             <Container>
                 <Row className="justify-content-center">
@@ -75,20 +80,5 @@ class HomeComp extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-    return {
-        ctr: state.counter
-    }
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onIncrementCounter: () => dispatch({ type: 'INCREMENT' }),
-        onDecrementCounter: () => dispatch({ type: 'DECREMENT' }),
-        onAddCounter: () => dispatch({ type: 'ADD' }),
-        onSubtractCounter: () => dispatch({ type: 'SUBTRACT' })
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeComp);
+export default HomeComp;
 

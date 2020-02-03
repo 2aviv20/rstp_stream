@@ -1,0 +1,8 @@
+th,td{
+    color:white;
+    font-size: 16px;
+}
+.tableRow:hover{
+    background-color: teal;
+    cursor: pointer;
+}

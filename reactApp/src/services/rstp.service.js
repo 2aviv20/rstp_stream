@@ -4,26 +4,11 @@ export default class Rstp {
         this.auth = new Auth();
         this.config = {apiUrl : "http://localhost:3888"}; 
     }
-
-    async getUrlByEmail(email) {
+    async getAll() {
         try {
             const requestOptions = {
                 method: 'GET',
-                headers: this.auth.authHeader()
-            };
-            const response = await fetch(`${this.config.apiUrl}/rstpUrls/${email}`, requestOptions);
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            return error;
-        }
-    }
-
-    async getUrlAll() {
-        try {
-            const requestOptions = {
-                method: 'GET',
-                headers: this.auth.authHeader()
+                headers: {...this.auth.authHeader(),"Content-Type" :"application/json"}
             };
             const response = await fetch(`${this.config.apiUrl}/rstpUrls`, requestOptions);
             const data = await response.json();

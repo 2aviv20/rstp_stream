@@ -12,8 +12,8 @@ export default class RstpPlayer extends React.Component {
     render(props) {
         return (
             <div>
-                <h1>player</h1>
-                <iframe className="video_iframe" scrolling="no" width="310px" height="160px" src="http://localhost:3888/?rstpUrl=rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa"/>
+                <h1>Rstp Player </h1>
+                <iframe className="video_iframe" scrolling="no" width="310px" height="160px" src={"http://localhost:3888/?rstpUrl="+this.props.streamUrl} />
             </div>
         );
     }

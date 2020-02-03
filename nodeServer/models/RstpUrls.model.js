@@ -21,16 +21,10 @@ rstpUrlSchema.methods.addNewUrl = async function() {
     return res;
 }
 
-rstpUrlSchema.statics.findByEmail = async (_email) => {
+rstpUrlSchema.statics.getAll = async (_email) => {
     const urls = await rstpUrl.find({email:_email} )
     return urls
 }
-
-rstpUrlSchema.statics.getAll = async (_email) => {
-    const urls = await rstpUrl.find({})
-    return urls
-}
-
 const rstpUrl = mongoose.model('RstpUrls', rstpUrlSchema)
 
 module.exports = rstpUrl;
