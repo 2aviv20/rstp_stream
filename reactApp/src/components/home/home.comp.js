@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { connect } from 'react-redux';
+import history from '../../services/history'
 import '../../css/form.css'
 import './home.css'
 import { Container, Row, Col } from 'react-bootstrap';
@@ -36,10 +36,12 @@ class HomeComp extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.props.history.push("/login");
         if (this.state.url.valid) {
-            // const res = await this.rstp.addNewUrl(this.state.url);
-            // console.log(res);
+            const res = await this.rstp.addNewUrl(this.state.url.value);
+            console.log(res);
+            if(res){
+                history.push("/grid");
+            }
         }
     }
 

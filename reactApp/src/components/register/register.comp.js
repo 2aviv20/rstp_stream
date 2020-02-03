@@ -5,6 +5,7 @@ import './register.css'
 import '../../css/form.css'
 import { Container, Row, Col } from 'react-bootstrap';
 import Users from '../../services/users.service'
+import history from '../../services/history'
 
 class RegisterComp extends React.Component {
     constructor(props){
@@ -34,6 +35,9 @@ class RegisterComp extends React.Component {
             password: this.state.password
         };
         const res = await this.users.register(user);
+        if(res){
+            history.push("/home");
+        }
         console.log(res);
     }
     render() {
@@ -72,20 +76,4 @@ class RegisterComp extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-    return {
-        ctr: state.counter
-    }
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onIncrementCounter: () => dispatch({ type: 'INCREMENT' }),
-        onDecrementCounter: () => dispatch({ type: 'DECREMENT' }),
-        onAddCounter: () => dispatch({ type: 'ADD' }),
-        onSubtractCounter: () => dispatch({ type: 'SUBTRACT' })
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterComp);
-
+export default RegisterComp;

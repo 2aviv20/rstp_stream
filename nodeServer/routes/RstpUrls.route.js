@@ -1,29 +1,13 @@
 const express = require('express');
-const RstpUrls = require('../models/RstpUrls.model');
 const auth = require('../middlware/auth');
-
+const RstpController = require('../controllers/rstp.controller');
 const router = express.Router()
 
 router.post('/rstpUrls', auth , async (req, res) => {
-    // Create a new user
-    console.log(req.body);
-    try {
-        const rstpUrls = new RstpUrls({url:req.body.url, email:req.user.email})
-        const result = await rstpUrls.save();
-        res.status(201).send(result);
-    } catch (error) {
-        res.status(400).send(error);
-    }
+    RstpController.addUrl(req,res);
 })
 
 router.get('/rstpUrls', auth , async (req, res) => {
-    // Create a new user
-    console.log(req.body);
-    try {
-        const urls = await RstpUrls.getAll(req.user.email);
-        res.status(201).send(urls)
-    } catch (error) {
-        res.status(400).send(error)
-    }
+    RstpController.getUrls(req,res);
 }) 
 module.exports = router

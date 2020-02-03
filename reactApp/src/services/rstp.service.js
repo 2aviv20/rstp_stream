@@ -12,7 +12,11 @@ export default class Rstp {
             };
             const response = await fetch(`${this.config.apiUrl}/rstpUrls`, requestOptions);
             const data = await response.json();
-            return data;
+            if(data.ok){
+                return data.data;
+            }else{
+                return [];
+            }
         } catch (error) {
             return error;
         }
@@ -27,7 +31,11 @@ export default class Rstp {
         try {
             let res = await fetch(`${this.config.apiUrl}/rstpUrls`, requestOptions);
             res = await res.json();
-            return res;
+            if(res.ok){
+                return res.data;
+            }else{
+                return null;
+            }
         } catch (error) {
             return error;
         }

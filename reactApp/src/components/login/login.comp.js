@@ -1,10 +1,11 @@
 
 import React from 'react'
-import { connect } from 'react-redux';
 import './login.css'
 import '../../css/form.css'
 import { Container, Row, Col } from 'react-bootstrap';
 import Users from '../../services/users.service'
+import history from '../../services/history'
+
 class LogInComp extends React.Component {
     constructor(props){
         super(props);
@@ -23,9 +24,12 @@ class LogInComp extends React.Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(this.state.email,this.state.password);
+        // console.log(this.state.email,this.state.password);
         const res = await this.users.login(this.state.email,this.state.password);
         console.log(res);
+        if(res){
+            history.push("/home");
+        }
     }
 
     render() {
@@ -61,20 +65,5 @@ class LogInComp extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-    return {
-        ctr: state.counter
-    }
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onIncrementCounter: () => dispatch({ type: 'INCREMENT' }),
-        onDecrementCounter: () => dispatch({ type: 'DECREMENT' }),
-        onAddCounter: () => dispatch({ type: 'ADD' }),
-        onSubtractCounter: () => dispatch({ type: 'SUBTRACT' })
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogInComp);
+export default LogInComp;
 
