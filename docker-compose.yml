@@ -3,18 +3,7 @@
 
 version: "3"
 services:
-  nodeServer:
-    image: "node:12.14.1-stretch-slim"
-    container_name: nodeserverContainer
-    # build:
-    #   context: ./
-    volumes:
-      - ./:/source/nodeServer
-    ports:
-      - 3000:3000
-    depends_on:
-      - mongoDb
-  mongoDb:
+  mongo_db_srvice:
     image: "mongo:4.2.3-bionic"
     container_name: mongoDbContainer
     restart: always
@@ -27,6 +16,26 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 12345
       # MONGO_INITDB_DATABASE: mainDb
+  nodeserver:
+    # image: "node:12.14.1-stretch-slim"
+    container_name: nodeserverContainer
+    build:
+      context: ./nodeServer
+      dockerfile: Dockerfile
+    ports:
+      - 3888:3888
+    depends_on:
+      - mongo_db_srvice
+  reactapp:
+    # image: "node:12.14.1-stretch-slim"
+    container_name: reactContainer
+    build:
+      context: ./reactApp
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+
 
 
   
