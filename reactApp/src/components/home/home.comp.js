@@ -1,37 +1,54 @@
 
 import React from 'react'
 import { connect } from 'react-redux';
-import './login.css'
 import '../../css/form.css'
+import './home.css'
 import { Container, Row, Col } from 'react-bootstrap';
-import Users from '../../services/users.service'
-class LogInComp extends React.Component {
-    constructor(props){
+import Rstp from '../../services/rstp.service'
+class HomeComp extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
+            url: {
+                value: '',
+                valid: false,
+                used: false
+            },
         };
-        this.users = new Users();
+        this.rstp = new Rstp();
     }
 
-    handleEmailChange = (event) =>{
-        this.setState({email:event.target.value});
+    handleUrlChange = (event) => {
+        const regex = /(rtsp):\/\/(?:([^\s@\/]+?)[@])?([^\s\/:]+)(?:[:]([0-9]+))?(?:(\/[^\s?#]+)([?][^\s#]+)?)?([#]\S*)?/g
+        const _valid = (event.target.value.match(regex))?true:false;
+        this.setState({
+            url: {
+                value: event.target.value,
+                valid: _valid,
+                used: true
+            }
+        });
     }
-    handlePasswordChange = (event) =>{
-        this.setState({password:event.target.value});
-    }
+
     handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(this.state.email,this.state.password);
-        const res = await this.users.login(this.state.email,this.state.password);
-        console.log(res);
+        if(this.state.url.valid){
+            // const res = await this.rstp.addNewUrl(this.state.url);
+            // console.log(res);
+        }
     }
 
     render() {
+        let urlVlidationMsg = "";
+        if(!this.state.url.valid && this.state.url.used){
+            urlVlidationMsg = <div className="errorMessage">Error url is not valid</div>;
+        }else{
+            urlVlidationMsg = <div className="errorMessage"></div>;
+        }
+    
         return (
             <Container>
-                  <Row className="justify-content-center">
+                <Row className="justify-content-center">
                     <Col lg="6">
                         <div className="card o-hidden border-0 shadow-lg my-5">
                             <div className="card-body p-0">
@@ -40,13 +57,10 @@ class LogInComp extends React.Component {
                                         <div className="p-5">
                                             <form className="user" onSubmit={this.handleSubmit}>
                                                 <div className="form-group">
-                                                    <input type="text" className="form-control form-control-user" value={this.state.email} onChange={this.handleEmailChange} placeholder="Enter Email Address..." />
+                                                    <input type="text" className="form-control form-control-user" value={this.state.url.value} onChange={this.handleUrlChange} placeholder="Enter Rstp url" />
+                                                    {urlVlidationMsg}
                                                 </div>
-                                                <div className="form-group">
-                                                    <input type="password" className="form-control form-control-user" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Password" />
-                                                </div>
-                                                <h5 className="loginStatus"></h5>
-                                                <button className="btn btn-primary btn-user btn-block" type="submit">Login</button>
+                                                <button className="btn btn-primary btn-user btn-block" type="submit">Add</button>
                                             </form>
                                         </div>
                                     </Col>
@@ -76,5 +90,5 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogInComp);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeComp);
 

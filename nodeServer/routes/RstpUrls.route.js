@@ -8,11 +8,11 @@ router.post('/rstpUrls', auth , async (req, res) => {
     // Create a new user
     console.log(req.body);
     try {
-        const rstpUrls = new RstpUrls(req.body)
-        const res = await rstpUrls.save()
-        res.status(201).send(res)
+        const rstpUrls = new RstpUrls({url:req.body.url, email:req.user.email})
+        const result = await rstpUrls.save();
+        res.status(201).send(result);
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(error);
     }
 })
 

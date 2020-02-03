@@ -1,26 +1,16 @@
 const initialState = {
-    counter: 0
+    login: false
 };
 
 const reducer = (state = initialState, action) => {
-    if (action.type === 'INCREMENT') {
+    if (action.type === 'LOGIN') {
         return {
-            counter: state.counter + 1
+            login: true
         }
     }
-    if (action.type === 'DECREMENT') {
+    if (action.type === 'LOGOUT') {
         return {
-            counter: state.counter - 1
-        }
-    }
-    if (action.type === 'ADD') {
-        return {
-            counter: state.counter + 10
-        }
-    }
-    if (action.type === 'SUBTRACT') {
-        return {
-            counter: state.counter - 8
+            login: false
         }
     }
     return state;
